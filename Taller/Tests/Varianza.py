@@ -4,25 +4,16 @@ from scipy.stats import chi2
 import numpy as np
 
 class VarianzaApp(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master=None,archivo_path=None):
         super().__init__(master)
+        self.archivo_path = archivo_path  # Almacenar la ruta del archivo aquí
         self.master = master        
-        self.archivo_path = None
+        self.archivo_path = archivo_path
 
         self.create_widgets()
 
     def create_widgets(self):
-        self.label = tk.Label(self.master, text="Seleccione un archivo CSV:")
-        self.label.pack(pady=10)
-
-        self.buscar_frame = tk.Frame(self.master)
-        self.buscar_frame.pack(pady=5)
-
-        self.ruta_entry = tk.Entry(self.buscar_frame, width=50)
-        self.ruta_entry.pack(side="left", padx=5)
-
-        self.button = tk.Button(self.buscar_frame, text="Buscar Archivo", command=self.buscar_archivo)
-        self.button.pack(side="left", padx=5)
+        
 
         self.calcular_frame = tk.Frame(self.master)
         self.calcular_frame.pack(pady=5)
@@ -44,12 +35,7 @@ class VarianzaApp(tk.Frame):
         self.scrollbar.pack(side="right", fill="y")
         self.table.configure(yscrollcommand=self.scrollbar.set)
 
-    def buscar_archivo(self):
-        archivo_path = filedialog.askopenfilename(filetypes=[("Archivo CSV", "*.csv")])
-        if archivo_path:
-            self.archivo_path = archivo_path
-            self.ruta_entry.delete(0, tk.END)
-            self.ruta_entry.insert(0, archivo_path)
+    
 
     def calcular_resultados(self):
         if self.archivo_path:
@@ -95,9 +81,3 @@ class VarianzaApp(tk.Frame):
     def mostrar_resultados(self, resultados):
         for clave, valor in resultados.items():
             self.table.insert("", "end", values=(clave, valor))
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = VarianzaApp(master=root)
-    app.pack()
-    app.mainloop()

@@ -5,25 +5,28 @@ import numpy as np
 from scipy.stats import chi2
 
 class ChiSquareAnalysisApp(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master=None, archivo_path=None):
         super().__init__(master)
         self.master = master
-        
-        # Variables globales
+        self.archivo_path=archivo_path
         self.datos = None
-        
+        self.cargar_datos()
         # Crear widgets
         self.create_widgets()
+
+    def cargar_datos(self):
+        try:
+            if self.archivo_path:
+                # Leer los datos del archivo CSV
+                with open(self.archivo_path, 'r') as file:
+                    # Leer cada línea del archivo y convertirla en una lista de números
+                    self.datos = [float(numero) for numero in file.readline().strip().split(',')]
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudieron cargar los datos del archivo: {e}")
+
         
     def create_widgets(self):
-        # Widget para cargar archivo
-        self.ruta_textbox = tk.Text(self, height=1, width=40)
-        self.ruta_textbox.grid(row=0, column=0, padx=10, pady=10, sticky="we")
-        
-        self.boton_cargar = tk.Button(self, text="Cargar CSV", command=self.cargar_archivo)
-        self.boton_cargar.grid(row=0, column=1, padx=10, pady=10)
-        
-        # Widgets para ingresar valores y realizar análisis
+       
         etiqueta_a = tk.Label(self, text="Valor A:")
         etiqueta_a.grid(row=1, column=0, padx=10, pady=10)
         self.entrada_a = tk.Entry(self)
@@ -64,15 +67,6 @@ class ChiSquareAnalysisApp(tk.Frame):
         self.resultados_label = tk.Label(self, text="", justify="left")
         self.resultados_label.grid(row=6, column=0, columnspan=2, padx=10, pady=10, sticky="w")
 
-    def cargar_archivo(self):
-        try:
-            filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
-            self.datos = pd.read_csv(filename, header=None).values.flatten().tolist()
-            self.ruta_textbox.delete(1.0, tk.END)
-            self.ruta_textbox.insert(tk.END, filename)
-            messagebox.showinfo("Archivo cargado", "Archivo CSV cargado exitosamente.")
-        except FileNotFoundError:
-            messagebox.showerror("Error", "¡El archivo no existe!")
 
     def analizar(self):
         if self.datos is None:
@@ -84,7 +78,6 @@ class ChiSquareAnalysisApp(tk.Frame):
             b = float(self.entrada_b.get())
             interval = int(self.entrada_intervalo.get())
             df_resultado, suma, valor_critico, resultado = self.procesar_datos(a, b, interval)
-
             self.update_results(df_resultado, suma, valor_critico, resultado)
 
         except ValueError:
@@ -130,11 +123,3 @@ class ChiSquareAnalysisApp(tk.Frame):
 
         for index, row in df_resultado.iterrows():
             self.tabla.insert("", "end", values=(row['Intervalo'], row['Frecuencia'], row['Frecuencia Esperada'], row['Chi^2']))
-
-    
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = ChiSquareAnalysisApp(root)
-    app.pack()
-    root.mainloop()

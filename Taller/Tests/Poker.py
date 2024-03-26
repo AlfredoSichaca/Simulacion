@@ -4,23 +4,15 @@ import pandas as pd
 from scipy.stats import chi2
 
 class PruebaPoker(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master=None,archivo_path=None):
         super().__init__(master)
         self.master = master
+        self.archivo_path = archivo_path  # Almacenar la ruta del archivo aquí
         self.create_widgets()
 
     def create_widgets(self):
         self.frame = tk.Frame(self.master)
         self.frame.pack(padx=10, pady=10)
-
-        self.ruta_label = tk.Label(self.frame, text="Ruta del archivo:")
-        self.ruta_label.grid(row=0, column=0, sticky="w")
-
-        self.ruta_textbox = tk.Entry(self.frame, width=40)
-        self.ruta_textbox.grid(row=0, column=1, padx=5, pady=5)
-
-        self.buscar_button = tk.Button(self.frame, text="Buscar archivo", command=self.buscar_archivo)
-        self.buscar_button.grid(row=0, column=2, padx=5, pady=5)
 
         self.calcular_button = tk.Button(self.frame, text="Calcular", command=self.calcular_resultado)
         self.calcular_button.grid(row=1, column=0, columnspan=3, pady=5)
@@ -44,14 +36,9 @@ class PruebaPoker(tk.Frame):
         self.resultado_label = tk.Label(self.frame, text="")
         self.resultado_label.grid(row=5, column=0, columnspan=3)
 
-    def buscar_archivo(self):
-        ruta_archivo = filedialog.askopenfilename(filetypes=[("Archivos CSV", "*.csv")])
-        if ruta_archivo:
-            self.ruta_textbox.delete(0, tk.END)
-            self.ruta_textbox.insert(0, ruta_archivo)
 
     def calcular_resultado(self):
-        ruta_archivo = self.ruta_textbox.get()
+        ruta_archivo = self.archivo_path
         if ruta_archivo:
             try:
                 numeros = self.leer_csv(ruta_archivo)
@@ -135,8 +122,3 @@ class PruebaPoker(tk.Frame):
             print("Error al leer el archivo CSV:", e)
             return []
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = PruebaPoker(master=root)
-    app.pack()
-    app.mainloop()

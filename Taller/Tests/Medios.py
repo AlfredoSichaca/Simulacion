@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
@@ -6,26 +7,14 @@ import math
 import numpy as np
 
 class MediosApp(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master=None ,archivo_path=None):
         super().__init__(master)
         self.master = master
-        self.archivo_path = None
-
+        self.archivo_path = archivo_path  # Almacenar la ruta del archivo aquí
         self.create_widgets()
 
     def create_widgets(self):
-        self.label = tk.Label(self.master, text="Seleccione un archivo CSV:")
-        self.label.pack(pady=10)
-
-        self.buscar_frame = tk.Frame(self.master)
-        self.buscar_frame.pack(pady=5)
-
-        self.ruta_entry = tk.Entry(self.buscar_frame, width=40)
-        self.ruta_entry.pack(side="left", padx=5)
-
-        self.buscar_button = tk.Button(self.buscar_frame, text="Buscar Archivo", command=self.buscar_archivo)
-        self.buscar_button.pack(side="left", padx=5)
-
+       
         self.calcular_button = tk.Button(self.master, text="Calcular", command=self.calcular_resultados)
         self.calcular_button.pack()
 
@@ -39,13 +28,6 @@ class MediosApp(tk.Frame):
         self.scrollbar = ttk.Scrollbar(self.master, orient="vertical", command=self.table.yview)
         self.scrollbar.pack(side="right", fill="y")
         self.table.configure(yscrollcommand=self.scrollbar.set)
-
-    def buscar_archivo(self):
-        archivo_path = filedialog.askopenfilename(filetypes=[("Archivo CSV", "*.csv")])
-        if archivo_path:
-            self.archivo_path = archivo_path
-            self.ruta_entry.delete(0, tk.END)
-            self.ruta_entry.insert(0, archivo_path)
 
     def calcular_resultados(self):
         if self.archivo_path:
@@ -86,8 +68,4 @@ class MediosApp(tk.Frame):
         for clave, valor in resultados.items():
             self.table.insert("", "end", values=(clave, valor))
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = MediosApp(master=root)
-    app.pack()
-    app.mainloop()
+

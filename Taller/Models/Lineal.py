@@ -127,8 +127,3 @@ class LinealApp(tk.Frame):
         self.tree.heading("Ni2", text="Ni2")
         self.tree.grid(row=9, column=0, columnspan=2, padx=5, pady=5)
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = LinealApp(root)
-    app.pack()
-    root.mainloop()

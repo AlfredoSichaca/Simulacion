@@ -85,9 +85,3 @@ class VentanaPrincipal(tk.Frame):
 
         except ValueError:
             messagebox.showwarning("Error", "Los valores ingresados no son válidos.")
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = VentanaPrincipal(master=root)
-    app.pack()
-    app.mainloop()

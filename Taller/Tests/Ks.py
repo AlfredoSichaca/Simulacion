@@ -7,21 +7,14 @@ from tkinter import filedialog
 from tkinter import messagebox
 
 class KSPruebaFrame(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master=None,archivo_path=None):
         super().__init__(master)
         self.master = master
         self.create_widgets()
+        self.archivo_path = archivo_path  # Almacenar la ruta del archivo aquí
 
     def create_widgets(self):
-        self.archivo_label = ttk.Label(self, text="Nombre del archivo CSV:")
-        self.archivo_label.grid(row=0, column=0, padx=5, pady=5, sticky="e")
-
-        self.archivo_entry = ttk.Entry(self)
-        self.archivo_entry.grid(row=0, column=1, padx=5, pady=5, sticky="we")
-
-        self.buscar_button = ttk.Button(self, text="Buscar", command=self.buscar_archivo)
-        self.buscar_button.grid(row=0, column=2, padx=5, pady=5)
-
+        
         self.interval_label = ttk.Label(self, text="Número de intervalos:")
         self.interval_label.grid(row=1, column=0, padx=5, pady=5, sticky="e")
 
@@ -54,15 +47,10 @@ class KSPruebaFrame(tk.Frame):
 
         self.tabla_frecuencias.grid(row=5, column=0, columnspan=3, padx=5, pady=5)
 
-    def buscar_archivo(self):
-        archivo = filedialog.askopenfilename(filetypes=[("Archivo CSV", "*.csv")])
-        if archivo:
-            self.archivo_entry.delete(0, tk.END)
-            self.archivo_entry.insert(0, archivo)
-
+   
     def calcular_prueba_ks(self):
         # Obtener el nombre del archivo CSV desde la entrada del usuario
-        nombre_archivo = self.archivo_entry.get()
+        nombre_archivo = self.archivo_path
 
         # Leer los datos desde el archivo CSV
         datos = self.leer_datos_desde_csv(nombre_archivo)
@@ -145,8 +133,3 @@ class KSPruebaFrame(tk.Frame):
             return None
 
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = KSPruebaFrame(root)
-    app.pack()
-    root.mainloop()

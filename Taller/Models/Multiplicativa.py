@@ -130,8 +130,3 @@ class MultiplicativaApp(tk.Frame):
         self.tree.heading("Ni2", text="Ni2")
         self.tree.grid(row=8, column=0, columnspan=2, padx=5, pady=5)
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = MultiplicativaApp(root)
-    app.pack()
-    root.mainloop()
