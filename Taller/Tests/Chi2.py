@@ -26,7 +26,9 @@ class ChiSquareAnalysisApp(tk.Frame):
 
         
     def create_widgets(self):
-       
+        self.tittle_label = ttk.Label(self.master, text="Prueba de Chi2", font=("Helvetica", 14, "bold"))
+        self.tittle_label.pack()
+
         etiqueta_a = tk.Label(self, text="Valor A:")
         etiqueta_a.grid(row=1, column=0, padx=10, pady=10)
         self.entrada_a = tk.Entry(self)

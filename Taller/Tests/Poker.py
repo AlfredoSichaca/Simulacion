@@ -14,6 +14,9 @@ class PruebaPoker(tk.Frame):
         self.frame = tk.Frame(self.master)
         self.frame.pack(padx=10, pady=10)
 
+        self.tittle_label = ttk.Label(self.frame, text="Prueba de Póker", font=("Helvetica", 14, "bold"))
+        self.tittle_label.grid(row=0, column=0, columnspan=3, pady=5)
+
         self.calcular_button = tk.Button(self.frame, text="Calcular", command=self.calcular_resultado)
         self.calcular_button.grid(row=1, column=0, columnspan=3, pady=5)
 

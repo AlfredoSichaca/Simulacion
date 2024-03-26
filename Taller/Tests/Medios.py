@@ -15,7 +15,7 @@ class MediosApp(tk.Frame):
 
     def create_widgets(self):
        
-        self.calcular_button = tk.Button(self.master, text="Calcular", command=self.calcular_resultados)
+        self.calcular_button = tk.Button(self.master, text="Calcular Prueba de medias", command=self.calcular_resultados)
         self.calcular_button.pack()
 
         self.table = ttk.Treeview(self.master, columns=("Valor", "Calculado"), show="headings")

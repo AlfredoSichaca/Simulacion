@@ -14,7 +14,9 @@ class KSPruebaFrame(tk.Frame):
         self.archivo_path = archivo_path  # Almacenar la ruta del archivo aquí
 
     def create_widgets(self):
-        
+        self.tittle_label = ttk.Label(self.master, text="Prueba de Kolmogorov-Smirnov", font=("Helvetica", 14, "bold"))
+        self.tittle_label.pack()
+
         self.interval_label = ttk.Label(self, text="Número de intervalos:")
         self.interval_label.grid(row=1, column=0, padx=5, pady=5, sticky="e")
 
@@ -34,10 +36,10 @@ class KSPruebaFrame(tk.Frame):
         self.resultado_label.grid(row=4, column=0, columnspan=3, padx=5, pady=5)
 
         self.tabla_frecuencias = ttk.Treeview(self, columns=("Intervalo", "Frecuencia", "Frecuencia Acumulada",
-                                                              "Probabilidad Acumulada", "Frecuencia Esperada Acumulada",
-                                                              "Probabilidad Esperada Acumulada", "Diferencia"))
+                                                          "Probabilidad Acumulada", "Frecuencia Esperada Acumulada",
+                                                          "Probabilidad Esperada Acumulada", "Diferencia"))
 
-        # Configurar la tabla de frecuencias
+    # Configurar la tabla de frecuencias
         self.tabla_frecuencias.heading("#0", text="Índice")
         for col in self.tabla_frecuencias['columns']:
             self.tabla_frecuencias.heading(col, text=col)

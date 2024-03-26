@@ -13,7 +13,8 @@ class VarianzaApp(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        
+        self.tittle_label = ttk.Label(self.master, text="Prueba de Varianza", font=("Helvetica", 14, "bold"))
+        self.tittle_label.pack()
 
         self.calcular_frame = tk.Frame(self.master)
         self.calcular_frame.pack(pady=5)
@@ -34,7 +35,7 @@ class VarianzaApp(tk.Frame):
         self.scrollbar = ttk.Scrollbar(self.table_frame, orient="vertical", command=self.table.yview)
         self.scrollbar.pack(side="right", fill="y")
         self.table.configure(yscrollcommand=self.scrollbar.set)
-
+    
     
 
     def calcular_resultados(self):
