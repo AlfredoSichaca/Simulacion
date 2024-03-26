@@ -102,7 +102,7 @@ class VentanaPrincipal(tk.Frame):
             df["Ri2"] = df["Xi"] / m
             df['Ni2'] = min_val + (b - min_val) * df['Ri2']
 
-            numeros_aleatorios = df['R1']
+            numeros_aleatorios = df['Ni1']
 
             self.table.delete("1.0", tk.END)
             for i, valor in enumerate(numeros_aleatorios):
