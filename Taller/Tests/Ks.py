@@ -14,27 +14,34 @@ class KSPruebaFrame(tk.Frame):
         self.archivo_path = archivo_path  # Almacenar la ruta del archivo aquí
 
     def create_widgets(self):
+        # Crear etiqueta del título
         self.tittle_label = ttk.Label(self.master, text="Prueba de Kolmogorov-Smirnov", font=("Helvetica", 14, "bold"))
         self.tittle_label.pack()
 
+        # Etiqueta y entrada para el número de intervalos
         self.interval_label = ttk.Label(self, text="Número de intervalos:")
         self.interval_label.grid(row=1, column=0, padx=5, pady=5, sticky="e")
 
         self.interval_entry = ttk.Entry(self)
         self.interval_entry.grid(row=1, column=1, padx=5, pady=5, sticky="we")
 
+        # Botón para calcular la prueba
         self.calculate_button = ttk.Button(self, text="Calcular", command=self.calcular_prueba_ks)
         self.calculate_button.grid(row=1, column=2, padx=5, pady=5)
 
+        # Etiqueta para mostrar la máxima diferencia
         self.maximo_dif_label = ttk.Label(self, text="")
         self.maximo_dif_label.grid(row=2, column=0, columnspan=3, padx=5, pady=5)
 
+        # Etiqueta para mostrar el valor crítico
         self.critical_value_label = ttk.Label(self, text="")
         self.critical_value_label.grid(row=3, column=0, columnspan=3, padx=5, pady=5)
 
+        # Etiqueta para mostrar el resultado de la prueba
         self.resultado_label = ttk.Label(self, text="")
         self.resultado_label.grid(row=4, column=0, columnspan=3, padx=5, pady=5)
 
+        # Configuración de la tabla de frecuencias
         self.tabla_frecuencias = ttk.Treeview(self, columns=("Intervalo", "Frecuencia", "Frecuencia Acumulada",
                                                           "Probabilidad Acumulada", "Frecuencia Esperada Acumulada",
                                                           "Probabilidad Esperada Acumulada", "Diferencia"))
@@ -47,6 +54,7 @@ class KSPruebaFrame(tk.Frame):
         for col in self.tabla_frecuencias['columns']:
             self.tabla_frecuencias.column(col, anchor=tk.CENTER)
 
+        # Mostrar la tabla en la interfaz
         self.tabla_frecuencias.grid(row=5, column=0, columnspan=3, padx=5, pady=5)
 
    

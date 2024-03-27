@@ -77,7 +77,7 @@ class MainApplication(tk.Tk):
     def open_chi2(self):
         self.limpiar_panel_inferior()
         self.interfaz_actual = ChiSquareAnalysisApp(self.bottom_panel,self.ruta_textbox.cget("text"))
-        self.interfaz_actual.place(relx=0.5, rely=0.5, anchor=tk.CENTER)  # Centrar la interfaz en el panel inferior
+        self.interfaz_actual.place(relx=0.5, rely=0.5, anchor=tk.CENTER)  
 
     def open_ks(self):
         self.limpiar_panel_inferior()

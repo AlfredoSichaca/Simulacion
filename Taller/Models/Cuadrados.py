@@ -9,6 +9,13 @@ class CuadradosApp(tk.Frame):
         self.master = master
         self.create_widgets()
 
+
+    #Genera una secuencia de números pseudoaleatorios utilizando el método de cuadrados medios.
+    #Argumentos:
+    #semilla (int): La semilla inicial para el generador.
+    # iteraciones (int): El número de iteraciones para generar la secuencia.
+    #Returns:
+    #list: Lista de números pseudoaleatorios generados.
     def cuadrados_medios(self, semilla, iteraciones):
         resultados = []
         longitud_semilla = len(str(semilla))
@@ -21,10 +28,10 @@ class CuadradosApp(tk.Frame):
             numero_normalizado = nuevo_numero / (10 ** longitud_semilla)
             resultados.append(numero_normalizado)
             semilla = nuevo_numero
-
         return resultados
-
-    def validar_campos(self):
+    
+    #Valida los campos de entrada para garantizar que sean valores numéricos válidos y positivos.
+    def validar_campos(self):        
         try:
             semilla_inicial = int(self.semilla_entry.get())
             iteraciones = int(self.iteraciones_entry.get())
@@ -45,7 +52,7 @@ class CuadradosApp(tk.Frame):
         except ValueError as e:
             messagebox.showwarning("Error", str(e))
             return False
-
+    #Genera números pseudoaleatorios y los muestra en el Treeview si la validación de campos es exitosa.
     def generar_numeros_aleatorios(self):
         if self.validar_campos():
             semilla_inicial = int(self.semilla_entry.get())
@@ -67,6 +74,7 @@ class CuadradosApp(tk.Frame):
 
             return df
 
+    #Guarda los números pseudoaleatorios generados en un archivo CSV.
     def guardar_csv(self):
         df = self.generar_numeros_aleatorios()
         if df is not None:
@@ -85,6 +93,7 @@ class CuadradosApp(tk.Frame):
                 self.tree.delete(row)
 
     def create_widgets(self):
+        # Crear etiquetas y campos de entrada
         ttk.Label(self, text="Semilla inicial (4 dígitos):").grid(row=0, column=0, padx=5, pady=5)
         self.semilla_entry = ttk.Entry(self)
         self.semilla_entry.grid(row=0, column=1, padx=5, pady=5)
@@ -101,16 +110,16 @@ class CuadradosApp(tk.Frame):
         self.maximo_entry = ttk.Entry(self)
         self.maximo_entry.grid(row=3, column=1, padx=5, pady=5)
 
+        # Crear botones de generación y guardado
         generar_btn = ttk.Button(self, text="Generar", command=self.generar_numeros_aleatorios)
         generar_btn.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
 
         guardar_btn = ttk.Button(self, text="Guardar CSV", command=self.guardar_csv)
         guardar_btn.grid(row=5, column=0, columnspan=2, padx=5, pady=5)
 
+        # Crear Treeview para mostrar los números generados
         self.tree = ttk.Treeview(self, columns=("Ri", "Ni", "Xi"), show="headings")
         self.tree.heading("Ri", text="Ri")
         self.tree.heading("Ni", text="Ni")
         self.tree.heading("Xi", text="Xi")
         self.tree.grid(row=6, column=0, columnspan=2, padx=5, pady=5)
-
-

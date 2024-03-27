@@ -26,24 +26,30 @@ class ChiSquareAnalysisApp(tk.Frame):
 
         
     def create_widgets(self):
+
+        # Etiqueta de título para la ventana    
         self.tittle_label = ttk.Label(self.master, text="Prueba de Chi2", font=("Helvetica", 14, "bold"))
         self.tittle_label.pack()
 
+        # Etiqueta y entrada para el valor A
         etiqueta_a = tk.Label(self, text="Valor A:")
         etiqueta_a.grid(row=1, column=0, padx=10, pady=10)
         self.entrada_a = tk.Entry(self)
         self.entrada_a.grid(row=1, column=1, padx=10, pady=10)
 
+        # Etiqueta y entrada para el valor B
         etiqueta_b = tk.Label(self, text="Valor B:")
         etiqueta_b.grid(row=2, column=0, padx=10, pady=10)
         self.entrada_b = tk.Entry(self)
         self.entrada_b.grid(row=2, column=1, padx=10, pady=10)
 
+        # Etiqueta y entrada para el número de intervalos
         etiqueta_intervalo = tk.Label(self, text="Número de intervalos:")
         etiqueta_intervalo.grid(row=3, column=0, padx=10, pady=10)
         self.entrada_intervalo = tk.Entry(self)
         self.entrada_intervalo.grid(row=3, column=1, padx=10, pady=10)
 
+        # Botón para iniciar el análisis
         self.boton_analizar = tk.Button(self, text="Realizar Análisis", command=self.analizar)
         self.boton_analizar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
@@ -62,20 +68,24 @@ class ChiSquareAnalysisApp(tk.Frame):
         self.tabla.column("Chi^2", anchor="center", width=100)
         self.tabla.grid(row=5, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
 
+        # Barra de desplazamiento para la tabla
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.tabla.yview)
         scrollbar.grid(row=5, column=2, sticky='ns')
         self.tabla.configure(yscrollcommand=scrollbar.set)
 
+        # Etiqueta para mostrar los resultados del análisis
         self.resultados_label = tk.Label(self, text="", justify="left")
         self.resultados_label.grid(row=6, column=0, columnspan=2, padx=10, pady=10, sticky="w")
 
 
     def analizar(self):
+    # Verificar si se han cargado datos antes de iniciar el análisis
         if self.datos is None:
             messagebox.showerror("Error", "¡Por favor, carga un archivo antes de realizar el análisis!")
             return
 
         try:
+            # Obtener valores de las entradas y realizar el análisis        
             a = float(self.entrada_a.get())
             b = float(self.entrada_b.get())
             interval = int(self.entrada_intervalo.get())
@@ -83,9 +93,13 @@ class ChiSquareAnalysisApp(tk.Frame):
             self.update_results(df_resultado, suma, valor_critico, resultado)
 
         except ValueError:
+        # Manejar el error si los valores introducidos no son numéricos
+    
             messagebox.showerror("Error", "¡Por favor, introduce valores numéricos válidos!")
 
     def procesar_datos(self, a, b, interval):
+
+        # Crear un DataFrame con los datos y calcular los intervalos    
         df = pd.DataFrame({'Ri': self.datos})
         df['Ni'] = a + (b - a) * df['Ri']
 
@@ -95,6 +109,7 @@ class ChiSquareAnalysisApp(tk.Frame):
         intervalos = np.linspace(min_valor, max_valor, num=interval + 1)
         frecuencias, bordes_intervalos = np.histogram(df['Ni'], bins=intervalos)
 
+        # Calcular la frecuencia esperada y Chi^2 para cada intervalo
         n = len(intervalos) - 1
         N = len(df['Ni'])
         frecuencia_esperada = N / n
@@ -110,6 +125,7 @@ class ChiSquareAnalysisApp(tk.Frame):
         df_resultado = pd.DataFrame(datos)
         suma = sum(chi_2)
 
+        # Calcular el valor crítico y determinar si se aprueba o no
         alpha = 0.05
         grados_libertad = interval - 1
         valor_critico = chi2.ppf(1 - alpha, grados_libertad)
@@ -118,10 +134,14 @@ class ChiSquareAnalysisApp(tk.Frame):
         return df_resultado, suma, valor_critico, resultado
 
     def update_results(self, df_resultado, suma, valor_critico, resultado):
+
+        # Actualizar la etiqueta de resultados con la información obtenida    
         self.resultados_label.config(text=f"Suma de Chi^2: {round(suma, 2)}\nValor crítico: {valor_critico}\n¿Se Aprueba?: {resultado}")
 
+        # Limpiar la tabla antes de agregar los nuevos resultados
         for row in self.tabla.get_children():
             self.tabla.delete(row)
 
+        # Agregar los resultados al Treeview
         for index, row in df_resultado.iterrows():
             self.tabla.insert("", "end", values=(row['Intervalo'], row['Frecuencia'], row['Frecuencia Esperada'], row['Chi^2']))
